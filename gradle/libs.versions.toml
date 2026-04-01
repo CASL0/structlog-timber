@@ -12,3 +12,4 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx"
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }
+spotless = { id = "com.diffplug.spotless", version = "8.4.0" }
