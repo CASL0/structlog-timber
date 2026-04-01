@@ -12,6 +12,13 @@ android {
   }
 
   kotlin { jvmToolchain(17) }
+
+  @Suppress("UnstableApiUsage") testOptions { unitTests.isIncludeAndroidResources = true }
 }
 
-dependencies { implementation(project(":structlog-timber-core")) }
+dependencies {
+  implementation(project(":structlog-timber-core"))
+
+  testImplementation(libs.junit)
+  testImplementation(libs.robolectric)
+}

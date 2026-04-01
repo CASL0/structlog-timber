@@ -14,4 +14,9 @@ android {
   kotlin { jvmToolchain(17) }
 }
 
-dependencies { api(libs.timber) }
+dependencies {
+  api(libs.timber)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.mockk)
+}

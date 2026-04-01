@@ -17,4 +17,7 @@ android {
 dependencies {
   implementation(project(":structlog-timber-core"))
   implementation(libs.firebase.crashlytics)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.mockk)
 }
