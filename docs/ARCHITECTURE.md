@@ -12,20 +12,37 @@ from Android Developers.
 
 ```
 structlog-timber/
-├── structlog-timber-core        # Core library (Sink, StructuredTree, StructuredLog)
+├── structlog-timber-core        # Core library (Sink, StructuredTree, StructuredLog) — pure Kotlin
+├── structlog-timber-logcat      # Logcat Sink implementation
 └── structlog-timber-crashlytics # Crashlytics Sink implementation
 ```
 
 ### structlog-timber-core
 
 The core module containing the public API and all framework-independent logic.
-This module depends only on [Timber](https://github.com/JakeWharton/timber) and
-the Android SDK.
+This module depends only on [Timber](https://github.com/JakeWharton/timber).
+It does **not** depend on any Android framework classes, keeping the domain
+layer pure Kotlin.
+
+### structlog-timber-logcat
+
+An optional module providing a `LogcatSink` implementation.
+This module depends on `structlog-timber-core` and the Android SDK
+(`android.util.Log`).
 
 ### structlog-timber-crashlytics
 
 An optional module providing a `CrashlyticsSink` implementation.
 This module depends on `structlog-timber-core` and Firebase Crashlytics.
+
+### Dependency Graph
+
+```
+structlog-timber-logcat      ──► structlog-timber-core
+structlog-timber-crashlytics ──► structlog-timber-core
+```
+
+All Sink modules depend on core. Core depends on nothing except Timber.
 
 > *"Expose as little as possible from each module."*
 >
@@ -117,7 +134,7 @@ recommended layered architecture:
 |---------------|-------------------|-------------|
 | **UI Layer** | Consumer app | The app that calls `StructuredTimber` or `Timber` |
 | **Domain Layer** | `StructuredTimber`, `StructuredLog` | Encapsulates structured logging use cases |
-| **Data Layer** | `StructuredTree`, `Sink` implementations | Handles actual log emission to destinations |
+| **Data Layer** | `StructuredTree`, Sink modules (`logcat`, `crashlytics`) | Handles actual log emission to destinations |
 
 ---
 
