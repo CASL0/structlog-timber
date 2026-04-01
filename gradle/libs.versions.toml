@@ -1,0 +1,14 @@
+[versions]
+agp = "9.1.0"
+timber = "5.0.1"
+firebase-crashlytics = "19.4.0"
+
+compileSdk = "36"
+minSdk = "26"
+
+[libraries]
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "agp" }
