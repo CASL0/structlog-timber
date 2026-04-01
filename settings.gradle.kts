@@ -18,4 +18,6 @@ rootProject.name = "structlog-timber"
 
 include(":structlog-timber-core")
 
+include(":structlog-timber-logcat")
+
 include(":structlog-timber-crashlytics")
