@@ -1,4 +1,7 @@
-plugins { alias(libs.plugins.android.library) }
+plugins {
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.kover)
+}
 
 android {
   namespace = "io.github.casl0.structlog.extension.timber.crashlytics"

@@ -1,7 +1,10 @@
 plugins {
   alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.kover)
   alias(libs.plugins.spotless)
 }
+
+dependencies { subprojects.forEach { kover(it) } }
 
 spotless {
   kotlin {
