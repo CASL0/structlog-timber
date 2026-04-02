@@ -23,6 +23,5 @@ kotlin { jvmToolchain(17) }
 dependencies {
   implementation(project(":structlog-timber-core"))
   implementation(project(":structlog-timber-logcat"))
-  implementation(libs.timber)
   implementation(libs.appcompat)
 }
