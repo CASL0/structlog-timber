@@ -6,6 +6,7 @@ junit = "4.13.2"
 mockk = "1.14.9"
 robolectric = "4.16.1"
 kover = "0.9.8"
+appcompat = "1.7.0"
 
 compileSdk = "36"
 minSdk = "26"
@@ -16,8 +17,10 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx"
 junit = { module = "junit:junit", version.ref = "junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 spotless = { id = "com.diffplug.spotless", version = "8.4.0" }
