@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.kover)
+  alias(libs.plugins.maven.publish)
 }
 
 android {
@@ -15,6 +16,17 @@ android {
   }
 
   kotlin { jvmToolchain(17) }
+}
+
+mavenPublishing {
+  publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+  signAllPublications()
+  coordinates(artifactId = "structlog-timber-crashlytics")
+  pom {
+    name.set("structlog-timber-crashlytics")
+    description.set("Firebase Crashlytics sink for structlog-timber")
+    inceptionYear.set("2026")
+  }
 }
 
 dependencies {
