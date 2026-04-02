@@ -6,7 +6,7 @@ plugins {
   alias(libs.plugins.spotless)
 }
 
-dependencies { subprojects.forEach { kover(it) } }
+dependencies { subprojects.filter { it.name != "sample" }.forEach { kover(it) } }
 
 spotless {
   kotlin {
