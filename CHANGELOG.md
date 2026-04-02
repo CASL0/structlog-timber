@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/CASL0/structlog-timber/compare/v1.0.0...v1.0.1) (2026-04-02)
+
+
+### Bug Fixes
+
+* use block markers for release-please version annotation ([34cc50c](https://github.com/CASL0/structlog-timber/commit/34cc50c561dc05da6c49bafb4c91d3d14ded69ec))
+
 ## 1.0.0 (2026-04-02)
 
 
