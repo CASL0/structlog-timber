@@ -2,6 +2,7 @@ package io.github.casl0.structlog.extension.timber.logcat
 
 import android.util.Log
 import io.github.casl0.structlog.extension.timber.StructuredLogEntry
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,11 +15,21 @@ import org.robolectric.shadows.ShadowLog
 class LogcatSinkTest {
 
   @Test
+  fun `isLoggable returns false below minPriority`() {
+    val sink = LogcatSink()
+
+    assertFalse(sink.isLoggable(Log.DEBUG))
+    assertFalse(sink.isLoggable(Log.INFO))
+    assertTrue(sink.isLoggable(Log.WARN))
+    assertTrue(sink.isLoggable(Log.ERROR))
+  }
+
+  @Test
   fun `emit writes message to logcat`() {
     val sink = LogcatSink()
     val entry =
       StructuredLogEntry(
-        priority = Log.DEBUG,
+        priority = Log.WARN,
         tag = "TestTag",
         message = "hello",
         throwable = null,
@@ -36,7 +47,7 @@ class LogcatSinkTest {
     val sink = LogcatSink()
     val entry =
       StructuredLogEntry(
-        priority = Log.INFO,
+        priority = Log.WARN,
         tag = "Tag",
         message = "msg",
         throwable = null,
@@ -57,7 +68,7 @@ class LogcatSinkTest {
     val sink = LogcatSink()
     val entry =
       StructuredLogEntry(
-        priority = Log.DEBUG,
+        priority = Log.WARN,
         tag = null,
         message = "no tag",
         throwable = null,

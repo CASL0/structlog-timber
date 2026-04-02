@@ -11,12 +11,16 @@ import io.github.casl0.structlog.extension.timber.StructuredLogEntry
  * ```
  * D/Checkout: Purchase completed {item_id=SKU-123, price=1980, currency=JPY}
  * ```
+ *
+ * @param minPriority Minimum log priority to emit. Defaults to [Log.WARN].
  */
-class LogcatSink : Sink {
+class LogcatSink(private val minPriority: Int = Log.WARN) : Sink {
 
   companion object {
     private const val DEFAULT_TAG = "StructuredLog"
   }
+
+  override fun isLoggable(priority: Int): Boolean = priority >= minPriority
 
   /** Emit the structured log [entry] to Logcat with formatted key-value fields. */
   override fun emit(entry: StructuredLogEntry) {
