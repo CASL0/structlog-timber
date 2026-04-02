@@ -26,7 +26,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Run tests with coverage
-        run: ./gradlew testDebugUnitTest koverXmlReport
+        run: |
+          chmod +x gradlew
+          ./gradlew testDebugUnitTest koverXmlReport
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
