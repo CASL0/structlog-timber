@@ -14,9 +14,13 @@ import io.github.casl0.structlog.extension.timber.StructuredLogEntry
  */
 class LogcatSink : Sink {
 
+  companion object {
+    private const val DEFAULT_TAG = "StructuredLog"
+  }
+
   /** Emit the structured log [entry] to Logcat with formatted key-value fields. */
   override fun emit(entry: StructuredLogEntry) {
-    val tag = entry.tag ?: "StructuredLog"
+    val tag = entry.tag ?: DEFAULT_TAG
     val fieldsStr =
       if (entry.fields.isNotEmpty()) {
         " " + entry.fields.entries.joinToString(prefix = "{", postfix = "}") { (k, v) -> "$k=$v" }
