@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/CASL0/structlog-timber/compare/v1.0.2...v1.1.0) (2026-04-03)
+
+
+### Features
+
+* add StructuredLog.withContext for scoped context management ([18040ce](https://github.com/CASL0/structlog-timber/commit/18040cec42e3d91d1bb2e24f6d247769ed28b511))
+* add StructuredLog.withContext for scoped context management ([34d8b44](https://github.com/CASL0/structlog-timber/commit/34d8b44a8db68e06081eafdfdc90ba2952470907))
+
+
+### Bug Fixes
+
+* snapshot context before mutation in withFields to handle duplicate keys ([3c84c87](https://github.com/CASL0/structlog-timber/commit/3c84c8707c20e270e1ec6ac24a80fa4946823b7b))
+
 ## [1.0.2](https://github.com/CASL0/structlog-timber/compare/v1.0.1...v1.0.2) (2026-04-03)
 
 
