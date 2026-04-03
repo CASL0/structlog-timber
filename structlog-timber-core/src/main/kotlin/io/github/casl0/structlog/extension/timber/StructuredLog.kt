@@ -77,27 +77,22 @@ object StructuredLog {
    * @since 1.1.0
    */
   fun <R> withFields(vararg entries: Pair<String, Any?>, block: () -> R): R {
-    val previousValues = mutableMapOf<String, Any?>()
-    val keysToRemove = mutableListOf<String>()
-    val currentContext = contextHolder.get()
+    // Snapshot pre-mutation state so duplicate keys in entries don't corrupt restoration.
+    val snapshot = contextHolder.get()?.toMap().orEmpty()
 
     for ((key, value) in entries) {
-      if (currentContext != null && key in currentContext) {
-        previousValues[key] = currentContext[key]
-      } else {
-        keysToRemove.add(key)
-      }
       putContext(key, value)
     }
 
     try {
       return block()
     } finally {
-      for ((key, value) in previousValues) {
-        putContext(key, value)
-      }
-      for (key in keysToRemove) {
-        removeContext(key)
+      for ((key, _) in entries) {
+        if (key in snapshot) {
+          putContext(key, snapshot[key])
+        } else {
+          removeContext(key)
+        }
       }
     }
   }
