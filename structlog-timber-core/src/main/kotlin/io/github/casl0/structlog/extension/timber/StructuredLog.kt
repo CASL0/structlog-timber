@@ -63,6 +63,11 @@ object StructuredLog {
    * after [block] completes, even if it throws an exception. This prevents context leaks compared
    * to manual [putContext] / [removeContext] pairs.
    *
+   * **Thread constraint:** Because the context is backed by a [ThreadLocal], [block] must complete
+   * entirely on the calling thread. Do not switch coroutine dispatchers (e.g.,
+   * `kotlinx.coroutines.withContext(Dispatchers.IO)`) inside [block]; context entries will not be
+   * visible on the new thread.
+   *
    * ```kotlin
    * StructuredLog.withFields("request_id" to requestId, "user_id" to userId) {
    *     // All logs within this block include request_id and user_id.
@@ -72,7 +77,8 @@ object StructuredLog {
    * ```
    *
    * @param entries Key-value pairs to add to the context for the duration of [block].
-   * @param block The block to execute with the scoped context.
+   * @param block The block to execute. Scoped entries are available to all [StructuredTimber] calls
+   *   made on this thread within [block]; no argument is passed.
    * @return The result of [block].
    * @since 1.1.0
    */
