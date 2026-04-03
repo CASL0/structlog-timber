@@ -70,4 +70,55 @@ class StructuredLogTest {
     assertTrue("nullable" in snapshot)
     assertNull(snapshot["nullable"])
   }
+
+  @Test
+  fun `withContext adds entries during block and removes them after`() {
+    StructuredLog.withContext("request_id" to "r-1", "trace_id" to "t-1") {
+      val snapshot = StructuredLog.snapshot()
+      assertEquals("r-1", snapshot["request_id"])
+      assertEquals("t-1", snapshot["trace_id"])
+    }
+
+    val after = StructuredLog.snapshot()
+    assertTrue("request_id" !in after)
+    assertTrue("trace_id" !in after)
+  }
+
+  @Test
+  fun `withContext removes entries even when block throws`() {
+    try {
+      StructuredLog.withContext("key" to "value") { throw RuntimeException("boom") }
+    } catch (_: RuntimeException) {}
+
+    assertTrue("key" !in StructuredLog.snapshot())
+  }
+
+  @Test
+  fun `withContext returns the block result`() {
+    val result = StructuredLog.withContext("key" to "value") { 42 }
+
+    assertEquals(42, result)
+  }
+
+  @Test
+  fun `withContext restores previous value if key already existed`() {
+    StructuredLog.putContext("key", "original")
+
+    StructuredLog.withContext("key" to "temporary") {
+      assertEquals("temporary", StructuredLog.snapshot()["key"])
+    }
+
+    assertEquals("original", StructuredLog.snapshot()["key"])
+  }
+
+  @Test
+  fun `withContext preserves unrelated context entries`() {
+    StructuredLog.putContext("existing", "keep")
+
+    StructuredLog.withContext("scoped" to "value") {
+      assertEquals("keep", StructuredLog.snapshot()["existing"])
+    }
+
+    assertEquals("keep", StructuredLog.snapshot()["existing"])
+  }
 }
