@@ -70,4 +70,85 @@ class StructuredLogTest {
     assertTrue("nullable" in snapshot)
     assertNull(snapshot["nullable"])
   }
+
+  @Test
+  fun `withFields adds entries during block and removes them after`() {
+    StructuredLog.withFields("request_id" to "r-1", "trace_id" to "t-1") {
+      val snapshot = StructuredLog.snapshot()
+      assertEquals("r-1", snapshot["request_id"])
+      assertEquals("t-1", snapshot["trace_id"])
+    }
+
+    val after = StructuredLog.snapshot()
+    assertTrue("request_id" !in after)
+    assertTrue("trace_id" !in after)
+  }
+
+  @Test
+  fun `withFields removes entries even when block throws`() {
+    try {
+      StructuredLog.withFields("key" to "value") { throw RuntimeException("boom") }
+    } catch (_: RuntimeException) {}
+
+    assertTrue("key" !in StructuredLog.snapshot())
+  }
+
+  @Test
+  fun `withFields returns the block result`() {
+    val result = StructuredLog.withFields("key" to "value") { 42 }
+
+    assertEquals(42, result)
+  }
+
+  @Test
+  fun `withFields restores previous value if key already existed`() {
+    StructuredLog.putContext("key", "original")
+
+    StructuredLog.withFields("key" to "temporary") {
+      assertEquals("temporary", StructuredLog.snapshot()["key"])
+    }
+
+    assertEquals("original", StructuredLog.snapshot()["key"])
+  }
+
+  @Test
+  fun `withFields preserves unrelated context entries`() {
+    StructuredLog.putContext("existing", "keep")
+
+    StructuredLog.withFields("scoped" to "value") {
+      assertEquals("keep", StructuredLog.snapshot()["existing"])
+    }
+
+    assertEquals("keep", StructuredLog.snapshot()["existing"])
+  }
+
+  @Test
+  fun `withFields with duplicate key uses last value and restores correctly`() {
+    StructuredLog.withFields("key" to "first", "key" to "second") {
+      assertEquals("second", StructuredLog.snapshot()["key"])
+    }
+
+    assertTrue("key" !in StructuredLog.snapshot())
+  }
+
+  @Test
+  fun `withFields with duplicate key restores original value`() {
+    StructuredLog.putContext("key", "original")
+
+    StructuredLog.withFields("key" to "first", "key" to "second") {
+      assertEquals("second", StructuredLog.snapshot()["key"])
+    }
+
+    assertEquals("original", StructuredLog.snapshot()["key"])
+  }
+
+  @Test
+  fun `withFields with no entries does not mutate context`() {
+    assertTrue(StructuredLog.snapshot().isEmpty())
+
+    val result = StructuredLog.withFields { 99 }
+
+    assertEquals(99, result)
+    assertTrue(StructuredLog.snapshot().isEmpty())
+  }
 }

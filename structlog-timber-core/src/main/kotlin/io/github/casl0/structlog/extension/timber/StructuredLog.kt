@@ -57,6 +57,53 @@ object StructuredLog {
   }
 
   /**
+   * Execute [block] with the given [entries] added to the current thread's context.
+   *
+   * The entries are added before [block] runs and removed (or restored to their previous values)
+   * after [block] completes, even if it throws an exception. This prevents context leaks compared
+   * to manual [putContext] / [removeContext] pairs.
+   *
+   * **Thread constraint:** Because the context is backed by a [ThreadLocal], [block] must complete
+   * entirely on the calling thread. Do not switch coroutine dispatchers (e.g.,
+   * `kotlinx.coroutines.withContext(Dispatchers.IO)`) inside [block]; context entries will not be
+   * visible on the new thread.
+   *
+   * ```kotlin
+   * StructuredLog.withFields("request_id" to requestId, "user_id" to userId) {
+   *     // All logs within this block include request_id and user_id.
+   *     StructuredTimber.d("Processing request", "action" to "checkout")
+   * }
+   * // request_id and user_id are automatically removed here.
+   * ```
+   *
+   * @param entries Key-value pairs to add to the context for the duration of [block].
+   * @param block The block to execute. Scoped entries are available to all [StructuredTimber] calls
+   *   made on this thread within [block]; no argument is passed.
+   * @return The result of [block].
+   * @since 1.1.0
+   */
+  fun <R> withFields(vararg entries: Pair<String, Any?>, block: () -> R): R {
+    // Snapshot pre-mutation state so duplicate keys in entries don't corrupt restoration.
+    val snapshot = contextHolder.get()?.toMap().orEmpty()
+
+    for ((key, value) in entries) {
+      putContext(key, value)
+    }
+
+    try {
+      return block()
+    } finally {
+      for ((key, _) in entries) {
+        if (key in snapshot) {
+          putContext(key, snapshot[key])
+        } else {
+          removeContext(key)
+        }
+      }
+    }
+  }
+
+  /**
    * Return the current context as a read-only view.
    *
    * No defensive copy is made. Because the context is thread-local, the returned map is safe to
