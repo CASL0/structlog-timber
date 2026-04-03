@@ -57,6 +57,52 @@ object StructuredLog {
   }
 
   /**
+   * Execute [block] with the given [entries] added to the current thread's context.
+   *
+   * The entries are added before [block] runs and removed (or restored to their previous values)
+   * after [block] completes, even if it throws an exception. This prevents context leaks compared
+   * to manual [putContext] / [removeContext] pairs.
+   *
+   * ```kotlin
+   * StructuredLog.withContext("request_id" to requestId, "user_id" to userId) {
+   *     // All logs within this block include request_id and user_id.
+   *     StructuredTimber.d("Processing request", "action" to "checkout")
+   * }
+   * // request_id and user_id are automatically removed here.
+   * ```
+   *
+   * @param entries Key-value pairs to add to the context for the duration of [block].
+   * @param block The block to execute with the scoped context.
+   * @return The result of [block].
+   * @since 1.1.0
+   */
+  fun <R> withContext(vararg entries: Pair<String, Any?>, block: () -> R): R {
+    val previousValues = mutableMapOf<String, Any?>()
+    val keysToRemove = mutableListOf<String>()
+    val currentContext = contextHolder.get()
+
+    for ((key, value) in entries) {
+      if (currentContext != null && key in currentContext) {
+        previousValues[key] = currentContext[key]
+      } else {
+        keysToRemove.add(key)
+      }
+      putContext(key, value)
+    }
+
+    try {
+      return block()
+    } finally {
+      for ((key, value) in previousValues) {
+        putContext(key, value)
+      }
+      for (key in keysToRemove) {
+        removeContext(key)
+      }
+    }
+  }
+
+  /**
    * Return the current context as a read-only view.
    *
    * No defensive copy is made. Because the context is thread-local, the returned map is safe to
