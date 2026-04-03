@@ -32,12 +32,18 @@ class StructuredTree(
    * Merge per-log, context, and global fields into a [StructuredLogEntry] and dispatch to each
    * registered [Sink] whose [Sink.isLoggable] returns `true`.
    *
+   * If a [Sink] throws an exception, it is caught and the remaining Sinks are still dispatched.
+   * After all Sinks have been attempted, the first caught exception (if any) is rethrown with
+   * subsequent exceptions added as suppressed.
+   *
    * Field merge priority (highest wins): per-log fields > context fields > global fields.
    *
    * @param priority Log priority ([android.util.Log] constants).
    * @param tag Log tag, or `null` if not set.
    * @param message The formatted log message.
    * @param t Optional throwable.
+   * @throws Throwable if one or more Sinks throw. The first exception is thrown with any subsequent
+   *   exceptions attached via [Throwable.addSuppressed].
    * @since 1.0.0
    */
   override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -65,10 +71,20 @@ class StructuredTree(
         fields = mergedFields,
       )
 
+    var firstException: Throwable? = null
     for (sink in sinks) {
       if (sink.isLoggable(priority)) {
-        sink.emit(entry)
+        try {
+          sink.emit(entry)
+        } catch (e: Throwable) {
+          if (firstException == null) {
+            firstException = e
+          } else {
+            firstException.addSuppressed(e)
+          }
+        }
       }
     }
+    firstException?.let { throw it }
   }
 }

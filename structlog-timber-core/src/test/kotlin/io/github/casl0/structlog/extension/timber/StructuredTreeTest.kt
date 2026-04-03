@@ -106,6 +106,62 @@ class StructuredTreeTest {
   }
 
   @Test
+  fun `failing sink does not block subsequent sinks`() {
+    val sink1 = createSink()
+    val sink2 = createSink()
+    every { sink1.emit(any()) } throws RuntimeException("sink1 failed")
+    Timber.plant(StructuredTree(sinks = listOf(sink1, sink2)))
+
+    try {
+      StructuredTimber.w("msg")
+    } catch (_: RuntimeException) {}
+
+    verify(exactly = 1) { sink2.emit(any()) }
+  }
+
+  @Test
+  fun `exception from sink is rethrown after all sinks are dispatched`() {
+    val sink = createSink()
+    val error = RuntimeException("boom")
+    every { sink.emit(any()) } throws error
+    Timber.plant(StructuredTree(sinks = listOf(sink)))
+
+    val thrown =
+      try {
+        StructuredTimber.w("msg")
+        null
+      } catch (e: RuntimeException) {
+        e
+      }
+
+    assertEquals(error, thrown)
+  }
+
+  @Test
+  fun `multiple sink failures are collected as suppressed exceptions`() {
+    val sink1 = createSink()
+    val sink2 = createSink()
+    val error1 = RuntimeException("sink1")
+    val error2 = RuntimeException("sink2")
+    every { sink1.emit(any()) } throws error1
+    every { sink2.emit(any()) } throws error2
+    Timber.plant(StructuredTree(sinks = listOf(sink1, sink2)))
+
+    val thrown =
+      try {
+        StructuredTimber.w("msg")
+        null
+      } catch (e: RuntimeException) {
+        e
+      }
+
+    assertEquals(error1, thrown)
+    val suppressed = thrown?.suppressed ?: emptyArray()
+    assertEquals(1, suppressed.size)
+    assertEquals(error2, suppressed[0])
+  }
+
+  @Test
   fun `throwable is passed through to entry`() {
     val sink = createSink()
     val entrySlot = slot<StructuredLogEntry>()
