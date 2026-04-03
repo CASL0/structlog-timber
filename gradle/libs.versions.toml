@@ -6,7 +6,7 @@ junit = "4.13.2"
 mockk = "1.14.9"
 robolectric = "4.16.1"
 kover = "0.9.8"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 spotless = "8.4.0"
 maven-publish = "0.32.0"
 
