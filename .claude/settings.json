@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew spotless*)",
+      "Bash(./gradlew test*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if cat | grep -qE '\\.(kt|kts)\"'; then ./gradlew spotlessApply -q 2>/dev/null; fi",
+            "timeout": 60000
+          }
+        ]
+      }
+    ]
+  }
+}
