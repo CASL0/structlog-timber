@@ -9,6 +9,7 @@ kover = "0.9.8"
 appcompat = "1.7.1"
 spotless = "8.4.0"
 maven-publish = "0.32.0"
+dokka = "2.2.0"
 
 compileSdk = "36"
 minSdk = "26"
@@ -27,3 +28,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
