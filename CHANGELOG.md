@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.2](https://github.com/CASL0/structlog-timber/compare/v1.0.1...v1.0.2) (2026-04-03)
+
+
+### Bug Fixes
+
+* **ci:** add --repo flag to gh pr merge and explicit labels to config ([18a9dae](https://github.com/CASL0/structlog-timber/commit/18a9daeff90a2989b082864029d6f32a1d5f18cd))
+* **ci:** avoid fromJSON error when release PR is not created ([78ba010](https://github.com/CASL0/structlog-timber/commit/78ba01026911fed590e3682bd52cd8c9690dd768))
+* **deps:** update dependency androidx.appcompat:appcompat to v1.7.1 ([#4](https://github.com/CASL0/structlog-timber/issues/4)) ([9bf8538](https://github.com/CASL0/structlog-timber/commit/9bf8538e68921306dad5da049ff84f67a6cf3fd9))
+* **deps:** update dependency com.google.firebase:firebase-crashlytics-ktx to v19.4.4 ([#5](https://github.com/CASL0/structlog-timber/issues/5)) ([3761e4d](https://github.com/CASL0/structlog-timber/commit/3761e4d9b5ee3bc7fe46b6a42ec4f8d65f2c4bcf))
+* prevent failing Sink from blocking subsequent Sinks in StructuredTree ([056f4aa](https://github.com/CASL0/structlog-timber/commit/056f4aaf7fc1bc17e8745c33b7a327818ee7372b))
+
 ## [1.0.1](https://github.com/CASL0/structlog-timber/compare/v1.0.0...v1.0.1) (2026-04-02)
 
 
