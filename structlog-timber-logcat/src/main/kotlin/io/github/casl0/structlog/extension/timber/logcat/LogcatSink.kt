@@ -20,6 +20,7 @@ class LogcatSink(private val minPriority: Int = Log.WARN) : Sink {
     private const val DEFAULT_TAG = "StructuredLog"
   }
 
+  /** Return `true` if [priority] is at or above [minPriority]. */
   override fun isLoggable(priority: Int): Boolean = priority >= minPriority
 
   /** Emit the structured log [entry] to Logcat with formatted key-value fields. */

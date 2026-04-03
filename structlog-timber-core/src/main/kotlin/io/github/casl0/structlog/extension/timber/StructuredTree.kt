@@ -25,6 +25,10 @@ class StructuredTree(
   private val globalFields: Map<String, Any?> = emptyMap(),
 ) : Timber.Tree() {
 
+  /**
+   * Merge per-log, context, and global fields into a [StructuredLogEntry] and dispatch to each
+   * registered [Sink] whose [Sink.isLoggable] returns `true`.
+   */
   override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
     val perLogFields = StructuredTimber.consumePendingFields()
     val contextFields = StructuredLog.snapshot()

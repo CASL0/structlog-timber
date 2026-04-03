@@ -71,7 +71,13 @@ object StructuredTimber {
     }
   }
 
-  /** Tagged structured logger. */
+  /**
+   * A structured logger that prefixes every log call with a fixed [tag].
+   *
+   * Obtain an instance via [StructuredTimber.tag].
+   *
+   * @param tag The log tag applied to all messages from this instance.
+   */
   class Tagged internal constructor(private val tag: String) {
 
     /** Log a structured message at VERBOSE level with the preset tag. */
