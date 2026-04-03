@@ -13,17 +13,37 @@ import io.github.casl0.structlog.extension.timber.StructuredLogEntry
  *
  * By default, only logs at WARN level and above are sent. Override [minPriority] to change this.
  *
+ * This class is thread-safe; all operations delegate to [FirebaseCrashlytics] which is itself
+ * thread-safe.
+ *
  * @param crashlytics The [FirebaseCrashlytics] instance. Defaults to
  *   [FirebaseCrashlytics.getInstance].
  * @param minPriority Minimum log priority to send. Defaults to [Log.WARN].
+ * @since 1.0.0
  */
 class CrashlyticsSink(
   private val crashlytics: FirebaseCrashlytics = FirebaseCrashlytics.getInstance(),
   private val minPriority: Int = Log.WARN,
 ) : Sink {
 
+  /**
+   * Return `true` if [priority] is at or above [minPriority].
+   *
+   * @param priority Log priority to check.
+   * @return `true` if [priority] >= [minPriority].
+   * @since 1.0.0
+   */
   override fun isLoggable(priority: Int): Boolean = priority >= minPriority
 
+  /**
+   * Emit the structured log [entry] to Firebase Crashlytics.
+   *
+   * Fields are set as custom keys with type-aware conversion for [Boolean], [Int], [Long], [Float],
+   * [Double], and [String]. All other types are converted via [Any.toString].
+   *
+   * @param entry The structured log entry to emit.
+   * @since 1.0.0
+   */
   override fun emit(entry: StructuredLogEntry) {
     for ((key, value) in entry.fields) {
       when (value) {
