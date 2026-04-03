@@ -64,7 +64,7 @@ object StructuredLog {
    * to manual [putContext] / [removeContext] pairs.
    *
    * ```kotlin
-   * StructuredLog.withContext("request_id" to requestId, "user_id" to userId) {
+   * StructuredLog.withFields("request_id" to requestId, "user_id" to userId) {
    *     // All logs within this block include request_id and user_id.
    *     StructuredTimber.d("Processing request", "action" to "checkout")
    * }
@@ -76,7 +76,7 @@ object StructuredLog {
    * @return The result of [block].
    * @since 1.1.0
    */
-  fun <R> withContext(vararg entries: Pair<String, Any?>, block: () -> R): R {
+  fun <R> withFields(vararg entries: Pair<String, Any?>, block: () -> R): R {
     val previousValues = mutableMapOf<String, Any?>()
     val keysToRemove = mutableListOf<String>()
     val currentContext = contextHolder.get()

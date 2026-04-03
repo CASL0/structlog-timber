@@ -72,8 +72,8 @@ class StructuredLogTest {
   }
 
   @Test
-  fun `withContext adds entries during block and removes them after`() {
-    StructuredLog.withContext("request_id" to "r-1", "trace_id" to "t-1") {
+  fun `withFields adds entries during block and removes them after`() {
+    StructuredLog.withFields("request_id" to "r-1", "trace_id" to "t-1") {
       val snapshot = StructuredLog.snapshot()
       assertEquals("r-1", snapshot["request_id"])
       assertEquals("t-1", snapshot["trace_id"])
@@ -85,26 +85,26 @@ class StructuredLogTest {
   }
 
   @Test
-  fun `withContext removes entries even when block throws`() {
+  fun `withFields removes entries even when block throws`() {
     try {
-      StructuredLog.withContext("key" to "value") { throw RuntimeException("boom") }
+      StructuredLog.withFields("key" to "value") { throw RuntimeException("boom") }
     } catch (_: RuntimeException) {}
 
     assertTrue("key" !in StructuredLog.snapshot())
   }
 
   @Test
-  fun `withContext returns the block result`() {
-    val result = StructuredLog.withContext("key" to "value") { 42 }
+  fun `withFields returns the block result`() {
+    val result = StructuredLog.withFields("key" to "value") { 42 }
 
     assertEquals(42, result)
   }
 
   @Test
-  fun `withContext restores previous value if key already existed`() {
+  fun `withFields restores previous value if key already existed`() {
     StructuredLog.putContext("key", "original")
 
-    StructuredLog.withContext("key" to "temporary") {
+    StructuredLog.withFields("key" to "temporary") {
       assertEquals("temporary", StructuredLog.snapshot()["key"])
     }
 
@@ -112,10 +112,10 @@ class StructuredLogTest {
   }
 
   @Test
-  fun `withContext preserves unrelated context entries`() {
+  fun `withFields preserves unrelated context entries`() {
     StructuredLog.putContext("existing", "keep")
 
-    StructuredLog.withContext("scoped" to "value") {
+    StructuredLog.withFields("scoped" to "value") {
       assertEquals("keep", StructuredLog.snapshot()["existing"])
     }
 
