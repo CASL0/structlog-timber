@@ -3,6 +3,9 @@
     "allow": [
       "Bash(./gradlew spotless*)",
       "Bash(./gradlew test*)"
+    ],
+    "deny": [
+      "Read(./**/google-services.json)"
     ]
   },
   "hooks": {

@@ -1,4 +1,8 @@
-plugins { alias(libs.plugins.android.application) }
+plugins {
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.google.services)
+  alias(libs.plugins.firebase.crashlytics.plugin)
+}
 
 android {
   namespace = "io.github.casl0.structlog.sample"
@@ -16,6 +20,12 @@ android {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
+
+  flavorDimensions += "sink"
+  productFlavors {
+    create("logcatOnly") { dimension = "sink" }
+    create("withCrashlytics") { dimension = "sink" }
+  }
 }
 
 kotlin { jvmToolchain(17) }
@@ -24,4 +34,6 @@ dependencies {
   implementation(project(":structlog-timber-core"))
   implementation(project(":structlog-timber-logcat"))
   implementation(libs.appcompat)
+
+  "withCrashlyticsImplementation"(project(":structlog-timber-crashlytics"))
 }
