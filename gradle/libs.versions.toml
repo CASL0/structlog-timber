@@ -10,7 +10,7 @@ appcompat = "1.7.1"
 spotless = "8.4.0"
 maven-publish = "0.36.0"
 dokka = "2.2.0"
-google-services = "4.4.2"
+google-services = "4.4.4"
 firebase-crashlytics-plugin = "3.0.6"
 
 compileSdk = "36"
