@@ -10,13 +10,15 @@ appcompat = "1.7.1"
 spotless = "8.4.0"
 maven-publish = "0.36.0"
 dokka = "2.2.0"
+google-services = "4.4.2"
+firebase-crashlytics-plugin = "3.0.3"
 
 compileSdk = "36"
 minSdk = "26"
 
 [libraries]
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
 junit = { module = "junit:junit", version.ref = "junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
@@ -29,3 +31,5 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+firebase-crashlytics-plugin = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
