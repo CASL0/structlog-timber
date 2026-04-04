@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Before Starting Work
+
+Review the relevant docs under `docs/` before making changes:
+
+- `docs/ARCHITECTURE.md` — module structure and design decisions
+- `docs/CODING_GUIDELINES.md` — code style and conventions
+- `docs/GIT_WORKFLOW.md` — branching, commits, and release process
+- `docs/API_DESIGN.md` — public API design principles
+- `docs/SECURITY.md` — security policies
+
 ## Build & Test Commands
 
 ```bash
