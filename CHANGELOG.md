@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.1](https://github.com/CASL0/structlog-timber/compare/v1.1.0...v1.1.1) (2026-04-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.google.firebase:firebase-crashlytics to v20 ([5c91dd7](https://github.com/CASL0/structlog-timber/commit/5c91dd7d1ee7edfd4f8c1752c854a9995193cd5d))
+* **deps:** update dependency com.google.firebase:firebase-crashlytics to v20 ([84dc6f4](https://github.com/CASL0/structlog-timber/commit/84dc6f4b62e9f967ec6d76ea2b484601e56642af))
+* remove deprecated SonatypeHost parameter from publishToMavenCentral ([89a7733](https://github.com/CASL0/structlog-timber/commit/89a7733eba2f39d64fa026dc2d027026d14f9a1e))
+
 ## [1.1.0](https://github.com/CASL0/structlog-timber/compare/v1.0.2...v1.1.0) (2026-04-03)
 
 
