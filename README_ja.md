@@ -4,6 +4,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.casl0/structlog-timber-core)](https://central.sonatype.com/search?q=g:io.github.casl0+structlog-timber)
 [![codecov](https://codecov.io/github/CASL0/structlog-timber/graph/badge.svg?token=13QUMCR321)](https://codecov.io/github/CASL0/structlog-timber)
+[![KDoc](https://img.shields.io/badge/KDoc-GitHub%20Pages-blueviolet)](https://casl0.github.io/structlog-timber/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 Android 向け構造化ロギングライブラリ。[Timber](https://github.com/JakeWharton/timber) をベースに、ログ呼び出しごとにキー・バリューのフィールドを付与し、Logcat や Crashlytics、任意の送信先へルーティングします。

@@ -4,6 +4,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.casl0/structlog-timber-core)](https://central.sonatype.com/search?q=g:io.github.casl0+structlog-timber)
 [![codecov](https://codecov.io/github/CASL0/structlog-timber/graph/badge.svg?token=13QUMCR321)](https://codecov.io/github/CASL0/structlog-timber)
+[![KDoc](https://img.shields.io/badge/KDoc-GitHub%20Pages-blueviolet)](https://casl0.github.io/structlog-timber/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 Structured logging for Android, built on [Timber](https://github.com/JakeWharton/timber). Attach key-value fields to every log call and route them to Logcat, Crashlytics, or any custom destination through a simple Sink interface.
