@@ -3,13 +3,13 @@ package io.github.casl0.structlog.extension.timber
 /**
  * MDC-style thread-local context manager for structured logging.
  *
- * Values set via [putContext] are automatically included in all subsequent structured log entries
- * on the same thread. Each thread maintains its own independent context, so this object is safe to
- * use from multiple threads concurrently without synchronization.
+ * Values set via [putLogContext] are automatically included in all subsequent structured log
+ * entries on the same thread. Each thread maintains its own independent context, so this object is
+ * safe to use from multiple threads concurrently without synchronization.
  *
  * ```kotlin
- * StructuredLog.putContext("user_id", userId)
- * StructuredLog.putContext("session_id", sessionId)
+ * StructuredLog.putLogContext("user_id", userId)
+ * StructuredLog.putLogContext("session_id", sessionId)
  *
  * // All logs below will include user_id and session_id.
  * StructuredTimber.d("Purchase completed", "item_id" to "SKU-123")
@@ -25,13 +25,13 @@ object StructuredLog {
    * Add a key-value pair to the current thread's context.
    *
    * If [key] already exists, its value is overwritten. The entry persists until explicitly removed
-   * via [removeContext] or [clearContext].
+   * via [removeLogContext] or [clearLogContext].
    *
    * @param key The context key.
    * @param value The context value. May be `null`.
    * @since 1.0.0
    */
-  fun putContext(key: String, value: Any?) {
+  fun putLogContext(key: String, value: Any?) {
     getOrCreateContext()[key] = value
   }
 
@@ -43,7 +43,7 @@ object StructuredLog {
    * @param key The context key to remove.
    * @since 1.0.0
    */
-  fun removeContext(key: String) {
+  fun removeLogContext(key: String) {
     contextHolder.get()?.remove(key)
   }
 
@@ -52,7 +52,7 @@ object StructuredLog {
    *
    * @since 1.0.0
    */
-  fun clearContext() {
+  fun clearLogContext() {
     contextHolder.remove()
   }
 
@@ -61,7 +61,7 @@ object StructuredLog {
    *
    * The entries are added before [block] runs and removed (or restored to their previous values)
    * after [block] completes, even if it throws an exception. This prevents context leaks compared
-   * to manual [putContext] / [removeContext] pairs.
+   * to manual [putLogContext] / [removeLogContext] pairs.
    *
    * **Thread constraint:** Because the context is backed by a [ThreadLocal], [block] must complete
    * entirely on the calling thread. Do not switch coroutine dispatchers (e.g.,
@@ -87,7 +87,7 @@ object StructuredLog {
     val snapshot = contextHolder.get()?.toMap().orEmpty()
 
     for ((key, value) in entries) {
-      putContext(key, value)
+      putLogContext(key, value)
     }
 
     try {
@@ -95,9 +95,9 @@ object StructuredLog {
     } finally {
       for ((key, _) in entries) {
         if (key in snapshot) {
-          putContext(key, snapshot[key])
+          putLogContext(key, snapshot[key])
         } else {
-          removeContext(key)
+          removeLogContext(key)
         }
       }
     }
