@@ -27,6 +27,28 @@ object StructuredTimber {
   private val pendingFields = ThreadLocal<MutableMap<String, Any?>>()
 
   /**
+   * Initialize structured logging by planting a [StructuredTree] with the given [sinks].
+   *
+   * This is a convenience method that replaces the manual `Timber.plant(StructuredTree(...))` call.
+   *
+   * ```kotlin
+   * StructuredTimber.init(
+   *     LogcatSink(minPriority = Log.DEBUG),
+   *     CrashlyticsSink(minPriority = Log.WARN),
+   *     globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
+   * )
+   * ```
+   *
+   * @param sinks One or more [Sink] destinations for structured log entries.
+   * @param globalFields Attributes automatically attached to every log entry. Defaults to an empty
+   *   map.
+   * @since 2.1.0
+   */
+  fun init(vararg sinks: Sink, globalFields: Map<String, Any?> = emptyMap()) {
+    Timber.plant(StructuredTree(sinks = sinks.toList(), globalFields = globalFields))
+  }
+
+  /**
    * Log a structured message at VERBOSE level.
    *
    * @param message The log message.
