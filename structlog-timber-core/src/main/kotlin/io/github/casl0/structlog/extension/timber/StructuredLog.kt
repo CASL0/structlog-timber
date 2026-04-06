@@ -69,7 +69,7 @@ object StructuredLog {
    * visible on the new thread.
    *
    * ```kotlin
-   * StructuredLog.withFields("request_id" to requestId, "user_id" to userId) {
+   * StructuredLog.withLogContext("request_id" to requestId, "user_id" to userId) {
    *     // All logs within this block include request_id and user_id.
    *     StructuredTimber.d("Processing request", "action" to "checkout")
    * }
@@ -82,7 +82,7 @@ object StructuredLog {
    * @return The result of [block].
    * @since 1.1.0
    */
-  fun <R> withFields(vararg entries: Pair<String, Any?>, block: () -> R): R {
+  fun <R> withLogContext(vararg entries: Pair<String, Any?>, block: () -> R): R {
     // Snapshot pre-mutation state so duplicate keys in entries don't corrupt restoration.
     val snapshot = contextHolder.get()?.toMap().orEmpty()
 
