@@ -193,7 +193,7 @@ Only controls relevant to the library's scope are addressed.
 
 **Policy:**
 
-- `StructuredLog.clearContext()` allows consumers to clear all context data.
+- `StructuredLog.clearLogContext()` allows consumers to clear all context data.
 - Sinks can be dynamically added or removed, giving consumers full control over log destinations.
 
 ---

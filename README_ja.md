@@ -23,7 +23,7 @@ StructuredTimber.i(
 ## 主な機能
 
 - **ログごとのキー・バリューフィールド** -- `Pair<String, Any?>` の可変長引数でメッセージと一緒に渡せます。
-- **スレッドローカルコンテキスト (MDC)** -- `StructuredLog.putContext()` で一度セットすれば、同一スレッド上の全ログに自動付与されます。
+- **スレッドローカルコンテキスト (MDC)** -- `StructuredLog.putLogContext()` で一度セットすれば、同一スレッド上の全ログに自動付与されます。
 - **グローバルフィールド** -- `StructuredTree` で `app_version` や `build_type` など、全エントリに共通の値を設定できます。
 - **プラグイン可能な Sink アーキテクチャ** -- Logcat と Firebase Crashlytics 用の Sink を同梱。`Sink` インターフェースを実装すれば独自の送信先を追加できます。
 - **優先度フィルタリング** -- Sink ごとに `isLoggable()` で最低ログレベルを制御できます。
@@ -99,8 +99,8 @@ StructuredTimber.d(
 コンテキスト値を設定すると、同一スレッド上の全ログに自動的に付与されます。
 
 ```kotlin
-StructuredLog.putContext("screen", "main")
-StructuredLog.putContext("user_id", userId)
+StructuredLog.putLogContext("screen", "main")
+StructuredLog.putLogContext("user_id", userId)
 
 // 以下のログには screen と user_id が自動で含まれる
 StructuredTimber.i("Item viewed", "item_id" to "SKU-456")
@@ -110,8 +110,8 @@ StructuredTimber.i("Item added to cart", "item_id" to "SKU-456")
 不要になったコンテキストは削除します。
 
 ```kotlin
-StructuredLog.removeContext("user_id")  // 単一キーを削除
-StructuredLog.clearContext()            // 全キーを削除
+StructuredLog.removeLogContext("user_id")  // 単一キーを削除
+StructuredLog.clearLogContext()            // 全キーを削除
 ```
 
 ### 4. タグを指定する
@@ -166,7 +166,7 @@ Timber.plant(
 | 優先度 | ソース | 設定方法 |
 |--------|--------|----------|
 | 1 (最低) | グローバルフィールド | `StructuredTree(globalFields = ...)` |
-| 2 | スレッドローカルコンテキスト | `StructuredLog.putContext()` |
+| 2 | スレッドローカルコンテキスト | `StructuredLog.putLogContext()` |
 | 3 (最高) | ログごとのフィールド | `StructuredTimber.d("msg", "key" to value)` |
 
 ## ドキュメント

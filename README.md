@@ -23,7 +23,7 @@ StructuredTimber.i(
 ## Features
 
 - **Key-value fields on every log call** -- pass `Pair<String, Any?>` varargs alongside your message.
-- **Thread-local context (MDC)** -- set once with `StructuredLog.putContext()`, automatically included in all subsequent logs on the same thread.
+- **Thread-local context (MDC)** -- set once with `StructuredLog.putLogContext()`, automatically included in all subsequent logs on the same thread.
 - **Global fields** -- attach `app_version`, `build_type`, or any constant to every entry via `StructuredTree`.
 - **Pluggable Sink architecture** -- built-in sinks for Logcat and Firebase Crashlytics; implement the `Sink` interface to add your own.
 - **Priority filtering** -- each Sink controls its own minimum log level via `isLoggable()`.
@@ -99,8 +99,8 @@ StructuredTimber.d(
 Set context values that automatically attach to all logs on the current thread:
 
 ```kotlin
-StructuredLog.putContext("screen", "main")
-StructuredLog.putContext("user_id", userId)
+StructuredLog.putLogContext("screen", "main")
+StructuredLog.putLogContext("user_id", userId)
 
 // Both logs below include screen and user_id
 StructuredTimber.i("Item viewed", "item_id" to "SKU-456")
@@ -110,8 +110,8 @@ StructuredTimber.i("Item added to cart", "item_id" to "SKU-456")
 Clear context when it is no longer needed:
 
 ```kotlin
-StructuredLog.removeContext("user_id")  // remove a single key
-StructuredLog.clearContext()            // remove all keys
+StructuredLog.removeLogContext("user_id")  // remove a single key
+StructuredLog.clearLogContext()            // remove all keys
 ```
 
 ### 4. Use tags
@@ -166,7 +166,7 @@ Timber.plant(
 | Priority | Source | Set via |
 |----------|--------|---------|
 | 1 (lowest) | Global fields | `StructuredTree(globalFields = ...)` |
-| 2 | Thread-local context | `StructuredLog.putContext()` |
+| 2 | Thread-local context | `StructuredLog.putLogContext()` |
 | 3 (highest) | Per-log fields | `StructuredTimber.d("msg", "key" to value)` |
 
 ## Documentation
