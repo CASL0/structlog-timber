@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/CASL0/structlog-timber/compare/v1.1.1...v2.0.0) (2026-04-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* putContext(), removeContext(), clearContext() are renamed to putLogContext(), removeLogContext(), clearLogContext()
+* StructuredLog.withFields() is renamed to StructuredLog.withLogContext()
+
+### Code Refactoring
+
+* rename putContext/removeContext/clearContext to putLogContext/removeLogContext/clearLogContext ([f081314](https://github.com/CASL0/structlog-timber/commit/f081314faa0edbbb8512673eb3acbae786cce3ec))
+* rename withFields to withLogContext in StructuredLog ([657d291](https://github.com/CASL0/structlog-timber/commit/657d29145a1cb302a29ff0b6459b01cafa29b1d5))
+
 ## [1.1.1](https://github.com/CASL0/structlog-timber/compare/v1.1.0...v1.1.1) (2026-04-05)
 
 
