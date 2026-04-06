@@ -64,19 +64,17 @@ dependencies {
 
 ## クイックスタート
 
-### 1. Tree を plant する
+### 1. 初期化
 
-`Application.onCreate()` で `StructuredTree` を設定します。
+`Application.onCreate()` で `StructuredTimber.init()` を呼び出します。
 
 ```kotlin
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(
-            StructuredTree(
-                sinks = listOf(LogcatSink(minPriority = Log.DEBUG)),
-                globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
-            )
+        StructuredTimber.init(
+            LogcatSink(minPriority = Log.DEBUG),
+            globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
         )
     }
 }
@@ -149,14 +147,10 @@ class DatadogSink : Sink {
 }
 ```
 
-Tree を plant する際に登録します。
+初期化時に登録します。
 
 ```kotlin
-Timber.plant(
-    StructuredTree(
-        sinks = listOf(LogcatSink(), DatadogSink()),
-    )
-)
+StructuredTimber.init(LogcatSink(), DatadogSink())
 ```
 
 ## フィールドのマージ順序
