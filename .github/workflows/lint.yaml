@@ -29,4 +29,4 @@ jobs:
       - name: Run Android Lint
         run: |
           chmod +x gradlew
-          ./gradlew lintDebug -x :sample:lintDebug
+          ./gradlew lintDebug
