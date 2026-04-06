@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Review the relevant docs under `docs/` before making changes:
 
+- `docs/WHY.md` — motivation and design rationale
 - `docs/ARCHITECTURE.md` — module structure and design decisions
 - `docs/CODING_GUIDELINES.md` — code style and conventions
 - `docs/GIT_WORKFLOW.md` — branching, commits, and release process

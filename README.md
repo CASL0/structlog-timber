@@ -165,6 +165,7 @@ StructuredTimber.init(LogcatSink(), DatadogSink())
 
 ## Documentation
 
+- [Why structlog-timber?](docs/WHY.md) -- motivation, use cases, and design rationale
 - [Architecture](docs/ARCHITECTURE.md) -- module structure, data flow, and design principles
 - [Coding Guidelines](docs/CODING_GUIDELINES.md) -- Kotlin style conventions
 - [Security Policy](docs/SECURITY.md) -- OWASP MASVS-based security considerations
