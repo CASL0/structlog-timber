@@ -9,9 +9,15 @@ import timber.log.Timber
  * [ThreadLocal] and consumed by [StructuredTree]. Each thread maintains its own pending fields, so
  * this object is safe to use from multiple threads concurrently without synchronization.
  *
- * A [StructuredTree] must be planted via [Timber.plant] before calling any logging methods;
- * otherwise the fields will not be consumed and may leak in the thread-local storage.
+ * Call [init] to set up structured logging before using any logging methods:
+ * ```kotlin
+ * StructuredTimber.init(
+ *     LogcatSink(minPriority = Log.DEBUG),
+ *     globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
+ * )
+ * ```
  *
+ * Then log messages with structured fields:
  * ```kotlin
  * StructuredTimber.d("Purchase completed",
  *     "item_id" to "SKU-123",
@@ -20,11 +26,50 @@ import timber.log.Timber
  * )
  * ```
  *
+ * Alternatively, you can plant a [StructuredTree] manually via [Timber.plant] for advanced use
+ * cases.
+ *
  * @since 1.0.0
  */
 object StructuredTimber {
 
   private val pendingFields = ThreadLocal<MutableMap<String, Any?>>()
+
+  private var tree: StructuredTree? = null
+
+  /**
+   * Initialize structured logging by planting a [StructuredTree] with the given [sinks].
+   *
+   * This method is idempotent: calling it again uproots the previous [StructuredTree] before
+   * planting a new one. Other [Timber.Tree] instances planted separately are not affected.
+   *
+   * This is a convenience method that replaces the manual `Timber.plant(StructuredTree(...))` call.
+   *
+   * ```kotlin
+   * StructuredTimber.init(
+   *     LogcatSink(minPriority = Log.DEBUG),
+   *     CrashlyticsSink(minPriority = Log.WARN),
+   *     globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
+   * )
+   * ```
+   *
+   * @param sinks One or more [Sink] destinations for structured log entries.
+   * @param globalFields Attributes automatically attached to every log entry. Defaults to an empty
+   *   map.
+   * @throws IllegalArgumentException if [sinks] is empty.
+   * @since 2.1.0
+   */
+  fun init(vararg sinks: Sink, globalFields: Map<String, Any?> = emptyMap()) {
+    require(sinks.isNotEmpty()) { "At least one Sink must be provided" }
+    tree?.let {
+      if (Timber.forest().contains(it)) {
+        Timber.uproot(it)
+      }
+    }
+    val newTree = StructuredTree(sinks = sinks.toList(), globalFields = globalFields)
+    tree = newTree
+    Timber.plant(newTree)
+  }
 
   /**
    * Log a structured message at VERBOSE level.

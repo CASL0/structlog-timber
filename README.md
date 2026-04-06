@@ -64,19 +64,17 @@ dependencies {
 
 ## Quick Start
 
-### 1. Plant the tree
+### 1. Initialize
 
-Configure `StructuredTree` with the sinks you want and plant it in your `Application.onCreate()`:
+Call `StructuredTimber.init()` in your `Application.onCreate()`:
 
 ```kotlin
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(
-            StructuredTree(
-                sinks = listOf(LogcatSink(minPriority = Log.DEBUG)),
-                globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
-            )
+        StructuredTimber.init(
+            LogcatSink(minPriority = Log.DEBUG),
+            globalFields = mapOf("app_version" to BuildConfig.VERSION_NAME),
         )
     }
 }
@@ -149,14 +147,10 @@ class DatadogSink : Sink {
 }
 ```
 
-Register it when planting the tree:
+Register it at initialization:
 
 ```kotlin
-Timber.plant(
-    StructuredTree(
-        sinks = listOf(LogcatSink(), DatadogSink()),
-    )
-)
+StructuredTimber.init(LogcatSink(), DatadogSink())
 ```
 
 ## Field Merge Order
