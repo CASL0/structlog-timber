@@ -439,7 +439,7 @@ fun `per-log fields override context and global fields`() {
   Timber.plant(StructuredTree(sinks = listOf(sink), globalFields = mapOf("key" to "global")))
 
   // Act
-  StructuredLog.putContext("key", "context")
+  StructuredLog.putLogContext("key", "context")
   StructuredTimber.d("msg", "key" to "per-log")
 
   // Assert
@@ -455,7 +455,7 @@ Always clean up shared state in `@After`:
 @After
 fun tearDown() {
   Timber.uprootAll()
-  StructuredLog.clearContext()
+  StructuredLog.clearLogContext()
 }
 ```
 

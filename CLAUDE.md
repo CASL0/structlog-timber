@@ -70,7 +70,7 @@ Field merge priority (highest wins): per-log fields > context fields > global fi
 - **Formatter**: ktfmt (Google style) via Spotless. 2-space indent, 100-char line limit.
 - **KDoc**: Required on every public and internal member, even self-explanatory ones.
 - **Nullability**: Prefer `?.` and `?:`. Avoid `!!`.
-- **Testing**: JUnit 4 + MockK. Backtick-quoted test names. AAA pattern. Always `@After` cleanup (`Timber.uprootAll()`, `StructuredLog.clearContext()`).
+- **Testing**: JUnit 4 + MockK. Backtick-quoted test names. AAA pattern. Always `@After` cleanup (`Timber.uprootAll()`, `StructuredLog.clearLogContext()`).
 - **Robolectric**: Used only in `structlog-timber-logcat` tests (for `ShadowLog`).
 
 ## Git Workflow

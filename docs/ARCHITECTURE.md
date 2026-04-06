@@ -78,7 +78,7 @@ The library separates responsibilities into distinct types:
 > --- [Guide to App Architecture](https://developer.android.com/topic/architecture#single-source-of-truth)
 
 - `StructuredLog` is the SSOT for thread-local context data.
-  Only `putContext()` and `removeContext()` can mutate the context.
+  Only `putLogContext()` and `removeLogContext()` can mutate the context.
   The `snapshot()` method exposes an immutable copy.
 - `StructuredTimber` is the SSOT for per-log fields.
   Fields are set via `ThreadLocal` and consumed exactly once by `StructuredTree`.
