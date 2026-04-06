@@ -29,7 +29,7 @@ object StructuredLog {
    *
    * @param key The context key.
    * @param value The context value. May be `null`.
-   * @since 1.0.0
+   * @since 2.0.0
    */
   fun putLogContext(key: String, value: Any?) {
     getOrCreateContext()[key] = value
@@ -41,7 +41,7 @@ object StructuredLog {
    * No-op if [key] does not exist.
    *
    * @param key The context key to remove.
-   * @since 1.0.0
+   * @since 2.0.0
    */
   fun removeLogContext(key: String) {
     contextHolder.get()?.remove(key)
@@ -50,7 +50,7 @@ object StructuredLog {
   /**
    * Clear all entries from the current thread's context.
    *
-   * @since 1.0.0
+   * @since 2.0.0
    */
   fun clearLogContext() {
     contextHolder.remove()
@@ -80,7 +80,7 @@ object StructuredLog {
    * @param block The block to execute. Scoped entries are available to all [StructuredTimber] calls
    *   made on this thread within [block]; no argument is passed.
    * @return The result of [block].
-   * @since 1.1.0
+   * @since 2.0.0
    */
   fun <R> withLogContext(vararg entries: Pair<String, Any?>, block: () -> R): R {
     // Snapshot pre-mutation state so duplicate keys in entries don't corrupt restoration.
