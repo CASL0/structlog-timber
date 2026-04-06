@@ -4,6 +4,7 @@ import android.util.Log
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -15,7 +16,6 @@ class StructuredTimberInitTest {
   @After
   fun tearDown() {
     Timber.uprootAll()
-    StructuredLog.clearLogContext()
   }
 
   private fun createSink(): Sink {
@@ -80,5 +80,24 @@ class StructuredTimberInitTest {
     StructuredTimber.d("hello")
 
     assertTrue(entrySlot.captured.fields.isEmpty())
+  }
+
+  @Test(expected = IllegalArgumentException::class)
+  fun `init with no sinks throws`() {
+    StructuredTimber.init()
+  }
+
+  @Test
+  fun `init called twice uproots previous tree and emits only once`() {
+    val oldSink = createSink()
+    val newSink = createSink()
+
+    StructuredTimber.init(oldSink)
+    StructuredTimber.init(newSink)
+
+    StructuredTimber.d("hello")
+
+    verify(exactly = 0) { oldSink.emit(any()) }
+    verify(exactly = 1) { newSink.emit(any()) }
   }
 }
