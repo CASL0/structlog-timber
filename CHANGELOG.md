@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/CASL0/structlog-timber/compare/v2.0.0...v2.1.0) (2026-04-06)
+
+
+### Features
+
+* **core:** add StructuredTimber.init() convenience method ([001ab9c](https://github.com/CASL0/structlog-timber/commit/001ab9c3eb38c1f594fb7e6ccb8446aaf8180fbd))
+* **core:** add StructuredTimber.init() convenience method ([0ca185f](https://github.com/CASL0/structlog-timber/commit/0ca185f4c7b585b6b6498a110b03ab7a3eb705a3))
+
+
+### Bug Fixes
+
+* **core:** make init() idempotent and add require guard ([e42ce56](https://github.com/CASL0/structlog-timber/commit/e42ce56f063b886252847629a4315f565e0a4045))
+
 ## [2.0.0](https://github.com/CASL0/structlog-timber/compare/v1.1.1...v2.0.0) (2026-04-06)
 
 
