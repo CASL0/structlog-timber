@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    StructuredLog.putContext("screen", "main")
+    StructuredLog.putLogContext("screen", "main")
 
     StructuredTimber.d(
       "Activity created",
@@ -37,6 +37,6 @@ class MainActivity : AppCompatActivity() {
 
   override fun onDestroy() {
     super.onDestroy()
-    StructuredLog.clearContext()
+    StructuredLog.clearLogContext()
   }
 }
