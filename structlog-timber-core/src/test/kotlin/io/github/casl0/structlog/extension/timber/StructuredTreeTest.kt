@@ -17,7 +17,7 @@ class StructuredTreeTest {
   @After
   fun tearDown() {
     Timber.uprootAll()
-    StructuredLog.clearContext()
+    StructuredLog.clearLogContext()
   }
 
   private fun createSink(): Sink {
@@ -61,7 +61,7 @@ class StructuredTreeTest {
     every { sink.emit(capture(entrySlot)) } returns Unit
     Timber.plant(StructuredTree(sinks = listOf(sink)))
 
-    StructuredLog.putContext("user_id", "u-1")
+    StructuredLog.putLogContext("user_id", "u-1")
     StructuredTimber.d("msg")
 
     assertEquals("u-1", entrySlot.captured.fields["user_id"])
@@ -74,7 +74,7 @@ class StructuredTreeTest {
     every { sink.emit(capture(entrySlot)) } returns Unit
     Timber.plant(StructuredTree(sinks = listOf(sink), globalFields = mapOf("key" to "global")))
 
-    StructuredLog.putContext("key", "context")
+    StructuredLog.putLogContext("key", "context")
     StructuredTimber.d("msg", "key" to "per-log")
 
     assertEquals("per-log", entrySlot.captured.fields["key"])
