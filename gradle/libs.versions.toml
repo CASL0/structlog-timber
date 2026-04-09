@@ -1,7 +1,7 @@
 [versions]
 agp = "9.1.0"
 timber = "5.0.1"
-firebase-crashlytics = "20.0.4"
+firebase-crashlytics = "20.0.5"
 junit = "4.13.2"
 mockk = "1.14.9"
 robolectric = "4.16.1"
