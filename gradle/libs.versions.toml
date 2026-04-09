@@ -11,7 +11,7 @@ spotless = "8.4.0"
 maven-publish = "0.36.0"
 dokka = "2.2.0"
 google-services = "4.4.4"
-firebase-crashlytics-plugin = "3.0.6"
+firebase-crashlytics-plugin = "3.0.7"
 
 compileSdk = "36"
 minSdk = "26"
