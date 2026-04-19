@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/CASL0/structlog-timber/compare/v2.1.0...v2.1.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.google.firebase:firebase-crashlytics to v20.0.5 ([#24](https://github.com/CASL0/structlog-timber/issues/24)) ([4d2ac02](https://github.com/CASL0/structlog-timber/commit/4d2ac025f46d5466777f590953eba86e32885f70))
+
 ## [2.1.0](https://github.com/CASL0/structlog-timber/compare/v2.0.0...v2.1.0) (2026-04-06)
 
 
