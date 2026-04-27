@@ -1,5 +1,7 @@
 [versions]
 agp = "9.2.0"
+kotlin = "2.2.10"
+kotlinx-serialization-json = "1.7.3"
 timber = "5.0.1"
 firebase-crashlytics = "20.0.5"
 junit = "4.13.2"
@@ -19,6 +21,7 @@ minSdk = "26"
 [libraries]
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 junit = { module = "junit:junit", version.ref = "junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
@@ -27,6 +30,7 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
