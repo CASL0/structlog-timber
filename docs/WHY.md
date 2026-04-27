@@ -83,6 +83,19 @@ StructuredTimber.e(
   automatically includes `app_version`, `session_id`, and whatever context
   you have set — without a single manual `setCustomKey()` call.
 
+The same call also records a flat JSON breadcrumb via
+`FirebaseCrashlytics.log()`, with the message stored under the `event` key
+and all fields merged at the top level, so the breadcrumb timeline is
+machine-readable end to end:
+
+```json
+{"event":"Payment failed","gateway":"stripe","retry_count":3,"user_tier":"premium"}
+```
+
+Custom keys give you the *state* at crash time; the JSON breadcrumb gives you
+the *sequence of events* leading up to it. Both are populated from the same
+log call, with no duplicate code at the call site.
+
 ---
 
 ## 3. Consistent Logs: Global Fields and Thread-Local Context

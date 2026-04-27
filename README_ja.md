@@ -18,6 +18,10 @@ StructuredTimber.i(
 )
 // Logcat 出力:
 // I/StructuredLog: Purchase completed {item_id=SKU-123, price=1980, currency=JPY}
+
+// Crashlytics のパンくず（メッセージを `event` キーに格納したフラット JSON）:
+// {"event":"Purchase completed","item_id":"SKU-123","price":1980,"currency":"JPY"}
+// — 同じフィールドは Crashlytics のカスタムキーとしても送信されます。
 ```
 
 ## 主な機能
@@ -55,7 +59,7 @@ dependencies {
 |------------|------------------|------|
 | `structlog-timber-core` | `io.github.casl0:structlog-timber-core` | コア API: `StructuredTimber`, `StructuredTree`, `StructuredLog`, `Sink` |
 | `structlog-timber-logcat` | `io.github.casl0:structlog-timber-logcat` | `LogcatSink` -- 構造化ログを Android Logcat に出力 |
-| `structlog-timber-crashlytics` | `io.github.casl0:structlog-timber-crashlytics` | `CrashlyticsSink` -- フィールドを Crashlytics のカスタムキーとして送信 |
+| `structlog-timber-crashlytics` | `io.github.casl0:structlog-timber-crashlytics` | `CrashlyticsSink` -- フィールドを Crashlytics のカスタムキーとして送信し、`FirebaseCrashlytics.log()` でフラット JSON パンくずも記録 |
 
 ### 動作要件
 

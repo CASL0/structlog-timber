@@ -18,6 +18,10 @@ StructuredTimber.i(
 )
 // Logcat output:
 // I/StructuredLog: Purchase completed {item_id=SKU-123, price=1980, currency=JPY}
+
+// Crashlytics breadcrumb (flat JSON, message under `event`):
+// {"event":"Purchase completed","item_id":"SKU-123","price":1980,"currency":"JPY"}
+// — and the same fields are also sent as Crashlytics custom keys.
 ```
 
 ## Features
@@ -55,7 +59,7 @@ dependencies {
 |--------|----------|-------------|
 | `structlog-timber-core` | `io.github.casl0:structlog-timber-core` | Core API: `StructuredTimber`, `StructuredTree`, `StructuredLog`, `Sink` |
 | `structlog-timber-logcat` | `io.github.casl0:structlog-timber-logcat` | `LogcatSink` -- writes structured logs to Android Logcat |
-| `structlog-timber-crashlytics` | `io.github.casl0:structlog-timber-crashlytics` | `CrashlyticsSink` -- sends fields as Crashlytics custom keys |
+| `structlog-timber-crashlytics` | `io.github.casl0:structlog-timber-crashlytics` | `CrashlyticsSink` -- sends fields as Crashlytics custom keys and records a flat JSON breadcrumb via `FirebaseCrashlytics.log()` |
 
 ### Requirements
 
