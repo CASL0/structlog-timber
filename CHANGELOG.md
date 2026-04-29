@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.0](https://github.com/CASL0/structlog-timber/compare/v2.1.1...v2.2.0) (2026-04-29)
+
+
+### Features
+
+* **crashlytics:** emit structured JSON breadcrumb with event key ([#31](https://github.com/CASL0/structlog-timber/issues/31)) ([c3f0ad4](https://github.com/CASL0/structlog-timber/commit/c3f0ad44186f28658a2fad928ba04a5cb6547443))
+
+
+### Bug Fixes
+
+* **deps:** update dependency org.jetbrains.kotlinx:kotlinx-serialization-json to v1.11.0 ([#35](https://github.com/CASL0/structlog-timber/issues/35)) ([d4c9029](https://github.com/CASL0/structlog-timber/commit/d4c9029fccd6873d6af62dccce654b0227debba5))
+
 ## [2.1.1](https://github.com/CASL0/structlog-timber/compare/v2.1.0...v2.1.1) (2026-04-15)
 
 
