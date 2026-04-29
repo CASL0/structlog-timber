@@ -162,6 +162,37 @@ class StructuredTreeTest {
   }
 
   @Test
+  fun `per-log fields preserve call-site insertion order`() {
+    val sink = createSink()
+    val entrySlot = slot<StructuredLogEntry>()
+    every { sink.emit(capture(entrySlot)) } returns Unit
+    Timber.plant(StructuredTree(sinks = listOf(sink)))
+
+    StructuredTimber.d("msg", "z" to 1, "a" to 2, "m" to 3, "b" to 4)
+
+    assertEquals(listOf("z", "a", "m", "b"), entrySlot.captured.fields.keys.toList())
+  }
+
+  @Test
+  fun `merged fields preserve global then context then per-log order`() {
+    val sink = createSink()
+    val entrySlot = slot<StructuredLogEntry>()
+    every { sink.emit(capture(entrySlot)) } returns Unit
+    Timber.plant(
+      StructuredTree(sinks = listOf(sink), globalFields = linkedMapOf("g1" to "g", "g2" to "g"))
+    )
+
+    StructuredLog.putLogContext("c1", "c")
+    StructuredLog.putLogContext("c2", "c")
+    StructuredTimber.d("msg", "p1" to "p", "p2" to "p")
+
+    assertEquals(
+      listOf("g1", "g2", "c1", "c2", "p1", "p2"),
+      entrySlot.captured.fields.keys.toList(),
+    )
+  }
+
+  @Test
   fun `throwable is passed through to entry`() {
     val sink = createSink()
     val entrySlot = slot<StructuredLogEntry>()

@@ -24,7 +24,7 @@ class CrashlyticsSinkTest {
   }
 
   @Test
-  fun `emit sets custom keys and logs message`() {
+  fun `emit sets custom keys and logs JSON breadcrumb`() {
     val sink = CrashlyticsSink(crashlytics = crashlytics)
     val entry =
       StructuredLogEntry(
@@ -32,14 +32,14 @@ class CrashlyticsSinkTest {
         tag = "Test",
         message = "something happened",
         throwable = null,
-        fields = mapOf("user_id" to "u-1", "count" to 42),
+        fields = linkedMapOf("user_id" to "u-1", "count" to 42),
       )
 
     sink.emit(entry)
 
     verify { crashlytics.setCustomKey("user_id", "u-1") }
     verify { crashlytics.setCustomKey("count", 42) }
-    verify { crashlytics.log("something happened") }
+    verify { crashlytics.log("""{"event":"something happened","user_id":"u-1","count":42}""") }
     verify(exactly = 0) { crashlytics.recordException(any()) }
   }
 
@@ -58,7 +58,7 @@ class CrashlyticsSinkTest {
 
     sink.emit(entry)
 
-    verify { crashlytics.log("error occurred") }
+    verify { crashlytics.log("""{"event":"error occurred"}""") }
     verify { crashlytics.recordException(exception) }
   }
 
@@ -72,7 +72,7 @@ class CrashlyticsSinkTest {
         message = "typed",
         throwable = null,
         fields =
-          mapOf(
+          linkedMapOf(
             "bool" to true,
             "int" to 1,
             "long" to 2L,
@@ -92,10 +92,15 @@ class CrashlyticsSinkTest {
     verify { crashlytics.setCustomKey("double", 4.0) }
     verify { crashlytics.setCustomKey("string", "hello") }
     verify { crashlytics.setCustomKey("other", "[1, 2, 3]") }
+    verify {
+      crashlytics.log(
+        """{"event":"typed","bool":true,"int":1,"long":2,"float":3.0,"double":4.0,"string":"hello","other":[1,2,3]}"""
+      )
+    }
   }
 
   @Test
-  fun `emit with empty fields only logs message`() {
+  fun `emit with empty fields only logs event in JSON`() {
     val sink = CrashlyticsSink(crashlytics = crashlytics)
     val entry =
       StructuredLogEntry(
@@ -108,12 +113,63 @@ class CrashlyticsSinkTest {
 
     sink.emit(entry)
 
-    verify { crashlytics.log("no fields") }
+    verify { crashlytics.log("""{"event":"no fields"}""") }
     verify(exactly = 0) { crashlytics.setCustomKey(any(), any<String>()) }
     verify(exactly = 0) { crashlytics.setCustomKey(any(), any<Boolean>()) }
     verify(exactly = 0) { crashlytics.setCustomKey(any(), any<Int>()) }
     verify(exactly = 0) { crashlytics.setCustomKey(any(), any<Long>()) }
     verify(exactly = 0) { crashlytics.setCustomKey(any(), any<Float>()) }
     verify(exactly = 0) { crashlytics.setCustomKey(any(), any<Double>()) }
+  }
+
+  @Test
+  fun `field with key 'event' overrides the log message in breadcrumb`() {
+    val sink = CrashlyticsSink(crashlytics = crashlytics)
+    val entry =
+      StructuredLogEntry(
+        priority = Log.WARN,
+        tag = null,
+        message = "original",
+        throwable = null,
+        fields = mapOf("event" to "overridden"),
+      )
+
+    sink.emit(entry)
+
+    verify { crashlytics.log("""{"event":"overridden"}""") }
+  }
+
+  @Test
+  fun `null field value is serialized as JSON null`() {
+    val sink = CrashlyticsSink(crashlytics = crashlytics)
+    val entry =
+      StructuredLogEntry(
+        priority = Log.WARN,
+        tag = null,
+        message = "msg",
+        throwable = null,
+        fields = mapOf("missing" to null),
+      )
+
+    sink.emit(entry)
+
+    verify { crashlytics.log("""{"event":"msg","missing":null}""") }
+  }
+
+  @Test
+  fun `string with special characters is escaped in JSON`() {
+    val sink = CrashlyticsSink(crashlytics = crashlytics)
+    val entry =
+      StructuredLogEntry(
+        priority = Log.WARN,
+        tag = null,
+        message = "say \"hi\"",
+        throwable = null,
+        fields = mapOf("path" to "C:\\tmp\\file"),
+      )
+
+    sink.emit(entry)
+
+    verify { crashlytics.log("""{"event":"say \"hi\"","path":"C:\\tmp\\file"}""") }
   }
 }
