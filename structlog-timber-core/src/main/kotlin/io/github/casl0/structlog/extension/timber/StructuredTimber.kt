@@ -152,7 +152,9 @@ object StructuredTimber {
   /**
    * Consume and return pending fields set by the most recent log call on this thread.
    *
-   * After this call, the thread-local pending fields are cleared.
+   * After this call, the thread-local pending fields are cleared. The returned map preserves the
+   * order in which fields were passed at the call site, so downstream [Sink] implementations can
+   * rely on a deterministic iteration order.
    *
    * @return The pending fields, or an empty map if none were set.
    * @since 1.0.0
@@ -170,7 +172,9 @@ object StructuredTimber {
 
   private fun setPendingFields(fields: Array<out Pair<String, Any?>>) {
     if (fields.isNotEmpty()) {
-      val map = HashMap<String, Any?>(fields.size * 2)
+      // LinkedHashMap preserves insertion order so Sinks that serialize fields (e.g. JSON
+      // breadcrumbs) produce deterministic output even when only per-log fields are present.
+      val map = LinkedHashMap<String, Any?>(fields.size * 2)
       for ((k, v) in fields) map[k] = v
       pendingFields.set(map)
     }
