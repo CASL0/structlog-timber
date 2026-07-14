@@ -1,6 +1,6 @@
 [versions]
 agp = "9.2.1"
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 kotlinx-serialization-json = "1.11.0"
 timber = "5.0.1"
 firebase-crashlytics = "20.1.0"
