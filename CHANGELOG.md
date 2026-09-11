@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.1](https://github.com/CASL0/structlog-timber/compare/v2.2.0...v2.2.1) (2026-09-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency androidx.appcompat:appcompat to v1.8.0 ([#60](https://github.com/CASL0/structlog-timber/issues/60)) ([72f2c0b](https://github.com/CASL0/structlog-timber/commit/72f2c0b7d70866d9978fde619a13e4eb8fa11ec6))
+* **deps:** update dependency com.google.firebase:firebase-crashlytics to v20.0.6 ([#37](https://github.com/CASL0/structlog-timber/issues/37)) ([570bc7e](https://github.com/CASL0/structlog-timber/commit/570bc7efd3902c12c7bf22053f3397be76c5e5e6))
+* **deps:** update dependency com.google.firebase:firebase-crashlytics to v20.1.0 ([#53](https://github.com/CASL0/structlog-timber/issues/53)) ([6813ffc](https://github.com/CASL0/structlog-timber/commit/6813ffc2f7d59bfb738a195caebfc2b97139634c))
+* **deps:** update dependency com.google.firebase:firebase-crashlytics to v20.1.1 ([#70](https://github.com/CASL0/structlog-timber/issues/70)) ([3b4dc42](https://github.com/CASL0/structlog-timber/commit/3b4dc424c77d89f9c4c2d7f5d9386e1aa127f916))
+* **deps:** update dependency io.mockk:mockk to v1.14.11 ([#43](https://github.com/CASL0/structlog-timber/issues/43)) ([6e68e92](https://github.com/CASL0/structlog-timber/commit/6e68e926b2fcc3926c74a75df6b871507a9439be))
+* **deps:** update dependency org.robolectric:robolectric to v4.17 ([#71](https://github.com/CASL0/structlog-timber/issues/71)) ([ecf3bdc](https://github.com/CASL0/structlog-timber/commit/ecf3bdc8199afd1627d574d084fe0741bc5a9066))
+
 ## [2.2.0](https://github.com/CASL0/structlog-timber/compare/v2.1.1...v2.2.0) (2026-04-29)
 
 
